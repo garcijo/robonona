@@ -56,7 +56,7 @@ func (b *Bamboo) Client(client *http.Client) {
 func (b Bamboo) GetDirectory() (dir Directory, err error) {
 
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/%s/v1/employees/directory", b.base, b.subdomain), nil)
-	log.Printf("%v", req)
+// 	log.Printf("%v", req)
 	if err != nil {
 		return
 	}
@@ -83,11 +83,11 @@ func (b Bamboo) GetDirectory() (dir Directory, err error) {
 	return
 }
 
-// Get employee directory
-func (b Bamboo) GetEmployee(id string) (employee Employee, err error) {
+// Get employee. Will return names, birthday, and hire date
+func (b Bamboo) GetEmployee(id string) (employee Employee) {
 
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/%s/v1/employees/%s?fields=firstName,lastName,displayName,dateOfBirth,hireDate", b.base, b.subdomain, id), nil)
-	log.Printf("%v", req)
+// 	log.Printf("%v", req)
 	if err != nil {
 		return
 	}
@@ -110,6 +110,16 @@ func (b Bamboo) GetEmployee(id string) (employee Employee, err error) {
 	}
 
 	err = json.Unmarshal(data, &employee)
+
+	return
+}
+
+// Get employee data. Will return names, birthday, and hire date
+func (b Bamboo) GetEmployeeData(employees []Employee) (employeeData []Employee, err error) {
+	for _, employee := range employees {
+		emp := b.GetEmployee(employee.Id)
+		employeeData = append(employeeData, emp)
+	}
 
 	return
 }

@@ -84,23 +84,21 @@ func GetBotUser(m model.Client4) *model.User {
 }
 
 // MessageMembers sends a message via mattermost to each set of pairs
-func MessageMembers(m model.Client4, pairs ChannelMemberPairs, botUser *model.User) {
-	for _, p := range pairs {
-		uidList := []string{p.First.Id, p.Second.Id, botUser.Id}
-		channel, resp := m.CreateGroupChannel(uidList)
+func MessageMembers(m model.Client4, channelName string, teamName string, botUser *model.User, birthdayString string) {
+	team,_ := m.GetTeamByName(teamName, "")
+	channel, resp := m.GetChannelByName(channelName, team.Id, "")
 
-		fmt.Printf("Channel: %v", channel)
-		fmt.Printf("Received response: %v", resp)
+    		fmt.Printf("Channel: %v", channel)
+    		fmt.Printf("Received response: %v", resp)
 
-		post := &model.Post{
-			ChannelId: channel.Id,
-			UserId:    botUser.Id,
-			Message:   "Hello! This week you have been matched up as conversation partners! I hope you meet up and have a great time :)",
-		}
-		_, resp = m.CreatePost(post)
-		if resp.Error != nil {
-			fmt.Fprintf(os.Stderr, "Error: %+v", resp)
-			os.Exit(1)
-		}
-	}
+    		post := &model.Post{
+    			ChannelId: channel.Id,
+    			UserId:    botUser.Id,
+    			Message:   birthdayString,
+    		}
+    		_, resp = m.CreatePost(post)
+    		if resp.Error != nil {
+    			fmt.Fprintf(os.Stderr, "Error: %+v", resp)
+    			os.Exit(1)
+    		}
 }

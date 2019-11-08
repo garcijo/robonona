@@ -1,4 +1,4 @@
-package birthday
+package mattermost
 
 import (
   "fmt"
@@ -6,18 +6,17 @@ import (
   "time"
 )
 
-func parseBirthdays(employees []Employee) birthdayString {
-  birthdayString := ""
+func ParseBirthdays(employees []Employee) (birthdayString string) {
+  	for _, employee := range employees {
+		employeeName := fmt.Sprintf("@%s.%s", employee.FirstName, employee.LastName)
+		employeeBirthday,_ := time.Parse("2006-01-02", employee.DateOfBirth)
+		birthdayString += StringifyBirthday(employeeName, employeeBirthday.Weekday().String()) + "\n"
+  	}
 
-  for _, employee := range employees {
-    employeeName = "@%s.%s, employee.FirstName, employee.LastName"
-    birthdayString += stringifyBirthday(employeeName, employee.DateOfBirth) + "\n"
-  }
-
-  return
+  	return
 }
 
-func stringifyBirthday(name, date string) (birthdayString string) {
+func StringifyBirthday(name, date string) (birthdayString string) {
 
   birthdayEmojis := []string{
     ":partyparrot:",
@@ -38,18 +37,33 @@ func stringifyBirthday(name, date string) (birthdayString string) {
     ":gift:",
     ":fireworks:",
     ":matrixparrot:",
-    ":birthday:"}
+    ":birthday:",
+    ":moneybag:",
+    ":pizza:",
+    ":penguin_dance:",
+    ":danghoul:",
+    ":happydance:",
+    ":dancing_corgi:",
+    ":dancing_men:",
+    ":shufflepartyparrot:",
+    ":aussiereversecongaparrot:",
+    ":sassyparrot:",
+    ":portalparrot:",
+    ":shocked_pikachu:",
+    ":pikachu:"}
 
-  rand.Seed(time.Now().Unix())
+  rand.Seed(time.Now().UnixNano())
+  var emoji1 string
+  var emoji2 string
 
-  emoji1 := birthdayEmojis[rand.Intn(len(birthdayEmojis))]
-  emoji2 := birthdayEmojis[rand.Intn(len(birthdayEmojis))]
+  emoji1 = birthdayEmojis[rand.Intn(len(birthdayEmojis))]
+  emoji2 = birthdayEmojis[rand.Intn(len(birthdayEmojis))]
 
   birthdayStrings := []string{
       fmt.Sprintf("%s On %s let's wish Happy Birthday to %s %s", emoji1, date, name, emoji2),
-      fmt.Sprintf("%s %s is %s's birthday! Woohoo! %s", emoji1, date, name, emoji2),
+      fmt.Sprintf("%s %s is %s 's birthday! Woohoo! %s", emoji1, date, name, emoji2),
       fmt.Sprintf("%s Time to party with %s on %s %s", emoji1, name, date, emoji2),
-      fmt.Sprintf("%s I heard it's %s's birthday on %s %s",  emoji1, name, date, emoji2),
+      fmt.Sprintf("%s I heard it's %s 's birthday on %s %s",  emoji1, name, date, emoji2),
       fmt.Sprintf("%s On %s we can celebrate with %s! %s", emoji1, date, name, emoji2),
       fmt.Sprintf("%s %s requires birthday celebrations for %s! %s", emoji1, date, name, emoji2),
       fmt.Sprintf("%s If it's %s we should party with %s %s", emoji1, date, name, emoji2)}

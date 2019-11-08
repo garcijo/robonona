@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -32,17 +31,16 @@ func main() {
 
 	bambooApi := mattermost.BambooHR(bambooURL, bambooKey)
 // 	bambooApi.Debug(true)
-	employees, bambooError := bambooApi.GetDirectory()
+	employees,_ := bambooApi.GetDirectory()
 
-	testEmployee, bambooError := bambooApi.GetEmployee(employees.Employees[0].Id)
-	fmt.Printf("%+v\n", testEmployee)
-	fmt.Printf("%+v\n", bambooError)
+	employeeData,_ := bambooApi.GetEmployeeData(employees.Employees[0:50])
 
-	members := mattermost.GetActiveChannelMembers(*api, teamName, channelName)
-	fmt.Printf("%+v\n", members)
-	fmt.Printf("There are %d members in channel %s for team %s\n", len(members), channelName, teamName)
-	// 	bot := mattermost.GetBotUser(*api)
-	// 	pairs := mattermost.SplitIntoPairs(members, bot.Id)
+	celebrations := mattermost.FilterCelebrations(employeeData)
 
-	// 	mattermost.MessageMembers(*api, pairs, bot)
+	bdayString := mattermost.ParseBirthdays(celebrations.Birthdays)
+	anniString := mattermost.ParseAnniversaries(celebrations.Anniversaries)
+	celebrationsString := ":robot: Beep Boop :robot:" + "\n" + bdayString + anniString + ":robot: Boop Beep :robot:"
+	bot := mattermost.GetBotUser(*api)
+
+	mattermost.MessageMembers(*api, channelName, teamName, bot, celebrationsString)
 }

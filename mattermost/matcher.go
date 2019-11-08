@@ -1,55 +1,35 @@
 package mattermost
 
 import (
-	"math/rand"
+	"fmt"
 	"time"
-
-	"github.com/mattermost/mattermost-server/model"
 )
 
-// ChannelMemberPair represents two channel members that have been grouped
-type ChannelMemberPair struct {
-	First  *model.User
-	Second *model.User
+type Celebrations struct {
+	Birthdays  []Employee
+	Anniversaries  []Employee
 }
 
-// ChannelMemberPairs represents a slice of ChannelMemberPair
-type ChannelMemberPairs []ChannelMemberPair
+func FilterCelebrations(employees []Employee) Celebrations {
+	today := time.Now()
+	endOfWeek := today.AddDate(0, 0, 15)
 
-// SplitIntoPairs splits the list of ChannelMembers into randomized list of pairs
-func SplitIntoPairs(channelMembers model.UserSlice, coffeeBotUserID string) ChannelMemberPairs {
-	// Remove coffee bot from our list of prospective matches
-	coffeeBotUserIndex := -1
-	for index, channelMember := range channelMembers {
-		if channelMember.Id == coffeeBotUserID {
-			coffeeBotUserIndex = index
-			break
+	birthdays := []Employee{}
+	anniversaries := []Employee{}
+	for _, employee := range employees {
+		employeeBirthday,_ := time.Parse("2006-01-02", employee.DateOfBirth)
+		employeeHireDate,_ := time.Parse("2006-01-02", employee.HireDate)
+
+		if !(employeeBirthday.YearDay() < today.YearDay()) && !(employeeBirthday.YearDay() > endOfWeek.YearDay()) {
+			birthdays = append(birthdays, employee)
 		}
+		if !(employeeHireDate.YearDay() < today.YearDay()) && !(employeeHireDate.YearDay() > endOfWeek.YearDay()) {
+			 anniversaries = append(anniversaries, employee)
+		 }
 	}
-	if coffeeBotUserIndex == -1 {
-		// How did we access this user list?!?
-		return ChannelMemberPairs{}
-	}
 
-	// Remove one before we do the swap for less overall math
-	memberLength := len(channelMembers) - 1
-	channelMembers[coffeeBotUserIndex] = channelMembers[memberLength]
-	channelMembers = channelMembers[:memberLength]
+	celebrations := Celebrations{birthdays, anniversaries}
+	fmt.Printf("%+v\n", celebrations)
 
-	rand.Seed(time.Now().UnixNano())
-	rand.Shuffle(memberLength, func(i, j int) {
-		channelMembers[i], channelMembers[j] = channelMembers[j], channelMembers[i]
-	})
-
-	halfMemberLength := memberLength / 2
-	pairs := make(ChannelMemberPairs, halfMemberLength)
-
-	for i := 0; i < halfMemberLength; i++ {
-		firstMember := channelMembers[i]
-		secondMember := channelMembers[memberLength-i-1]
-
-		pair := ChannelMemberPair{firstMember, secondMember}
-		pairs[i] = pair
-	}
-	return pairs
+	return celebrations
 }
