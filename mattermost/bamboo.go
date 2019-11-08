@@ -25,6 +25,7 @@ type Employee struct {
 	DisplayName string `json:"displayName,attr"`
 	FirstName string `json:"firstName,attr"`
 	LastName string `json:"lastName,attr"`
+	PreferredName string `json:"preferredName,attr"`
 	DateOfBirth string `json:"dateOfBirth,attr"`
 	HireDate string `json:"hireDate,attr"`
 }
@@ -86,7 +87,7 @@ func (b Bamboo) GetDirectory() (dir Directory, err error) {
 // Get employee. Will return names, birthday, and hire date
 func (b Bamboo) GetEmployee(id string) (employee Employee) {
 
-	req, err := http.NewRequest("GET", fmt.Sprintf("%s/%s/v1/employees/%s?fields=firstName,lastName,displayName,dateOfBirth,hireDate", b.base, b.subdomain, id), nil)
+	req, err := http.NewRequest("GET", fmt.Sprintf("%s/%s/v1/employees/%s?fields=firstName,lastName,displayName,preferredName,dateOfBirth,hireDate", b.base, b.subdomain, id), nil)
 // 	log.Printf("%v", req)
 	if err != nil {
 		return

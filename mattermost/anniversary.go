@@ -34,7 +34,11 @@ func Convert1to9(n int) (w string) {
 
 func ParseAnniversaries(employees []Employee) (anniversaryString string) {
   	for _, employee := range employees {
-		employeeName := fmt.Sprintf("@%s.%s", employee.FirstName, employee.LastName)
+  		firstName := employee.FirstName
+		if (employee.PreferredName != "") {
+			firstName = employee.PreferredName
+		}
+		employeeName := fmt.Sprintf("@%s.%s", firstName, employee.LastName)
 		employeeAnniversary,_ := time.Parse("2006-01-02", employee.HireDate)
 		today := time.Now().Year()
 		anniversaryNumber := today - employeeAnniversary.Year()

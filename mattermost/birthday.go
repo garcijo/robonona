@@ -8,7 +8,11 @@ import (
 
 func ParseBirthdays(employees []Employee) (birthdayString string) {
   	for _, employee := range employees {
-		employeeName := fmt.Sprintf("@%s.%s", employee.FirstName, employee.LastName)
+  	firstName := employee.FirstName
+	if (employee.PreferredName != "") {
+		firstName = employee.PreferredName
+	}
+		employeeName := fmt.Sprintf("@%s.%s", firstName, employee.LastName)
 		employeeBirthday,_ := time.Parse("2006-01-02", employee.DateOfBirth)
 		birthdayString += StringifyBirthday(employeeName, employeeBirthday.Weekday().String()) + "\n"
   	}

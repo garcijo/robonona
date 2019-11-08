@@ -3,6 +3,9 @@ package main
 import (
 	"log"
 	"os"
+	"math/rand"
+	"time"
+	"fmt"
 
 	"github.com/joho/godotenv"
 	"github.com/garcijo/robonona/mattermost"
@@ -33,13 +36,17 @@ func main() {
 // 	bambooApi.Debug(true)
 	employees,_ := bambooApi.GetDirectory()
 
-	employeeData,_ := bambooApi.GetEmployeeData(employees.Employees[0:50])
+	employeeData,_ := bambooApi.GetEmployeeData(employees.Employees)
 
 	celebrations := mattermost.FilterCelebrations(employeeData)
+	rand.Seed(time.Now().UnixNano())
+	fakeBday := employeeData[rand.Intn(len(employeeData))]
+	fakeBdayName := fmt.Sprintf("@%s.%s", fakeBday.FirstName, fakeBday.LastName)
+	fakeBdayString := fmt.Sprintf(":shocked_pikachu: And *finally*, the happiest of all birthdays to %s ! :shocked_pikachu:", fakeBdayName)
 
 	bdayString := mattermost.ParseBirthdays(celebrations.Birthdays)
 	anniString := mattermost.ParseAnniversaries(celebrations.Anniversaries)
-	celebrationsString := ":robot: Beep Boop :robot:" + "\n" + bdayString + anniString + ":robot: Boop Beep :robot:"
+	celebrationsString := ":robot: Beep Boop :robot:" + "\n" + bdayString + anniString + fakeBdayString + "\n" + ":robot: Boop Beep :robot:"
 	bot := mattermost.GetBotUser(*api)
 
 	mattermost.MessageMembers(*api, channelName, teamName, bot, celebrationsString)

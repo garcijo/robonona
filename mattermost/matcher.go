@@ -12,7 +12,7 @@ type Celebrations struct {
 
 func FilterCelebrations(employees []Employee) Celebrations {
 	today := time.Now()
-	endOfWeek := today.AddDate(0, 0, 15)
+	endOfWeek := today.AddDate(0, 0, 6)
 
 	birthdays := []Employee{}
 	anniversaries := []Employee{}
