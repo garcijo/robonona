@@ -4,6 +4,7 @@ import (
   "fmt"
   "math/rand"
   "time"
+  "strconv"
 )
 
 func ParseBirthdays(employees []Employee) (birthdayString string) {
@@ -13,7 +14,12 @@ func ParseBirthdays(employees []Employee) (birthdayString string) {
 		firstName = employee.PreferredName
 	}
 		employeeName := fmt.Sprintf("@%s.%s", firstName, employee.LastName)
-		employeeBirthday,_ := time.Parse("2006-01-02", employee.DateOfBirth)
+
+		birthday,_ := time.Parse("2006-01-02", employee.DateOfBirth)
+		//Build new string with current year and anniversary month and day
+		bdayString := strconv.Itoa(time.Now().Year()) + "-" + strconv.Itoa(int(birthday.Month())) + "-" + strconv.Itoa(birthday.Day())
+		employeeBirthday,_ := time.Parse("2006-01-02", bdayString)
+
 		birthdayString += StringifyBirthday(employeeName, employeeBirthday.Weekday().String()) + "\n"
   	}
 

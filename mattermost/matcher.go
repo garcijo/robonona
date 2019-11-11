@@ -1,7 +1,6 @@
 package mattermost
 
 import (
-	"fmt"
 	"time"
 )
 
@@ -12,6 +11,7 @@ type Celebrations struct {
 
 func FilterCelebrations(employees []Employee) Celebrations {
 	today := time.Now()
+	//Take current date and add 6 days to cover the whole week (Monday - Sunday)
 	endOfWeek := today.AddDate(0, 0, 6)
 
 	birthdays := []Employee{}
@@ -29,7 +29,6 @@ func FilterCelebrations(employees []Employee) Celebrations {
 	}
 
 	celebrations := Celebrations{birthdays, anniversaries}
-	fmt.Printf("%+v\n", celebrations)
 
 	return celebrations
 }
