@@ -13,7 +13,10 @@ func ParseBirthdays(employees []Employee) (birthdayString string) {
 	if (employee.PreferredName != "") {
 		firstName = employee.PreferredName
 	}
-		employeeName := fmt.Sprintf("@%s.%s", firstName, employee.LastName)
+		employeeName := fmt.Sprintf("@%s", employee.MattermostUsername)
+		if (employeeName == "") {
+			continue
+		}
 
 		birthday,_ := time.Parse("2006-01-02", employee.DateOfBirth)
 		//Build new string with current year and anniversary month and day
@@ -27,7 +30,6 @@ func ParseBirthdays(employees []Employee) (birthdayString string) {
 }
 
 func StringifyBirthday(name, date string) (birthdayString string) {
-
   birthdayEmojis := []string{
     ":partyparrot:",
     ":dance:",

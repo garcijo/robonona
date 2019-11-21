@@ -45,33 +45,6 @@ func GetActiveChannelMembers(m model.Client4, teamName string, channelName strin
 	return slice.FilterByActive(true)
 }
 
-/* GetChannelMembers call result
-   [
-	   {
-			ChannelId:3j4bicr51f8x7coet4shng9kkr
-			UserId:3eizzrqatin3te8s3a3yj5r6xc
-			Roles:channel_user
-			LastViewedAt:1568235154897
-			MsgCount:42
-			MentionCount:0
-			NotifyProps: {
-				desktop:default
-				email:default
-				ignore_channel_mentions:default
-				mark_unread:all
-				push:default
-			}
-			LastUpdateAt:1568235154897
-			SchemeGuest:false
-			SchemeUser:true
-			SchemeAdmin:false
-			ExplicitRoles
-	   },
-    ...
-   ]
-
-*/
-
 // GetBotUser gets information about the user this program is running as.
 func GetBotUser(m model.Client4) *model.User {
 	user, resp := m.GetMe("")
@@ -83,22 +56,52 @@ func GetBotUser(m model.Client4) *model.User {
 	return user
 }
 
+// GetBotUser gets information about the user this program is running as.
+func GetMattermostUsernames(m model.Client4, employeeData []Employee) (employees []Employee) {
+	for _, employee := range employeeData {
+		search := &model.UserSearch{
+			Term: employee.Email,
+			AllowInactive: false,
+			Limit: 1,
+		}
+		users,_ := m.SearchUsers(search)
+		employee.MattermostUsername = users[0].Username
+		employees = append(employees, employee)
+	}
+
+	return employees
+}
+
+// GetMattermostUsername gets a username from the employee's email address
+func GetMattermostUsername(m model.Client4, employeeData Employee) (employee Employee) {
+	search := &model.UserSearch{
+		Term: employeeData.Email,
+		AllowInactive: false,
+		Limit: 1,
+	}
+	users,_ := m.SearchUsers(search)
+	employeeData.MattermostUsername = users[0].Username
+	employee = employeeData
+
+	return employee
+}
+
 // MessageMembers sends a message via mattermost to each set of pairs
 func MessageMembers(m model.Client4, channelName string, teamName string, botUser *model.User, birthdayString string) {
 	team,_ := m.GetTeamByName(teamName, "")
 	channel, resp := m.GetChannelByName(channelName, team.Id, "")
 
-    		fmt.Printf("Channel: %v", channel)
-    		fmt.Printf("Received response: %v", resp)
+	fmt.Printf("Channel: %v", channel)
+	fmt.Printf("Received response: %v", resp)
 
-    		post := &model.Post{
-    			ChannelId: channel.Id,
-    			UserId:    botUser.Id,
-    			Message:   birthdayString,
-    		}
-    		_, resp = m.CreatePost(post)
-    		if resp.Error != nil {
-    			fmt.Fprintf(os.Stderr, "Error: %+v", resp)
-    			os.Exit(1)
-    		}
+	post := &model.Post{
+		ChannelId: channel.Id,
+		UserId:    botUser.Id,
+		Message:   birthdayString,
+	}
+	_, resp = m.CreatePost(post)
+	if resp.Error != nil {
+		fmt.Fprintf(os.Stderr, "Error: %+v", resp)
+		os.Exit(1)
+	}
 }
