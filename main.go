@@ -36,7 +36,7 @@ func main() {
 	//Get employees directory
 	employees,_ := bambooApi.GetDirectory()
 	//Take directory and get extra information for each employee (birthday, anniversary)
-	employeeData,_ := bambooApi.GetEmployeeData(employees.Employees)
+	employeeData,_ := bambooApi.GetEmployeeData(employees.Employees[0:100])
 	//Filter only the employees with celebrations within the next week
 	celebrations := mattermost.FilterCelebrations(employeeData)
 

@@ -35,10 +35,6 @@ func Convert1to9(n int) (w string) {
 
 func ParseAnniversaries(employees []Employee) (anniversaryString string) {
   	for _, employee := range employees {
-  		firstName := employee.FirstName
-		if (employee.PreferredName != "") {
-			firstName = employee.PreferredName
-		}
 		employeeName := fmt.Sprintf("@%s", employee.MattermostUsername)
 		if (employeeName == "") {
 			continue
@@ -60,19 +56,14 @@ func ParseAnniversaries(employees []Employee) (anniversaryString string) {
 
 func StringifyAnniversary(name, date string, year string) (anniversaryString string) {
 
-  anniversaryEmojis := []string{
-    ":tulipio:",
-	":raised_hands:",
-	":clap:",
-	":wave:",
-	":open_mouth:",
-	":tulip:"}
+  anniversaryEmojis := GetAnniversaryEmojis()
 
-  rand.Seed(time.Now().UnixNano())
   var emoji1 string
   var emoji2 string
 
+  rand.Seed(time.Now().UnixNano())
   emoji1 = anniversaryEmojis[rand.Intn(len(anniversaryEmojis))]
+  rand.Seed(time.Now().UnixNano())
   emoji2 = anniversaryEmojis[rand.Intn(len(anniversaryEmojis))]
 
 

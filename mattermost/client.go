@@ -99,7 +99,8 @@ func MessageMembers(m model.Client4, channelName string, teamName string, botUse
 		UserId:    botUser.Id,
 		Message:   birthdayString,
 	}
-	_, resp = m.CreatePost(post)
+	fmt.Printf("%v", post)
+// 	_, resp = m.CreatePost(post)
 	if resp.Error != nil {
 		fmt.Fprintf(os.Stderr, "Error: %+v", resp)
 		os.Exit(1)

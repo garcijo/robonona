@@ -9,10 +9,6 @@ import (
 
 func ParseBirthdays(employees []Employee) (birthdayString string) {
   	for _, employee := range employees {
-  	firstName := employee.FirstName
-	if (employee.PreferredName != "") {
-		firstName = employee.PreferredName
-	}
 		employeeName := fmt.Sprintf("@%s", employee.MattermostUsername)
 		if (employeeName == "") {
 			continue
@@ -30,45 +26,14 @@ func ParseBirthdays(employees []Employee) (birthdayString string) {
 }
 
 func StringifyBirthday(name, date string) (birthdayString string) {
-  birthdayEmojis := []string{
-    ":partyparrot:",
-    ":dance:",
-    ":partyparrot:",
-    ":dancer:",
-    ":airdancer:",
-    ":banana_dance:",
-    ":dancing_women:",
-    ":gopherdance:",
-    ":party_dead:",
-    ":ultrafastparrot:",
-    ":partydinosaur:",
-    ":partygopher:",
-    ":partyshark:",
-    ":congapartyparrot:",
-    ":megaman_party:",
-    ":gift:",
-    ":fireworks:",
-    ":matrixparrot:",
-    ":birthday:",
-    ":moneybag:",
-    ":pizza:",
-    ":penguin_dance:",
-    ":danghoul:",
-    ":happydance:",
-    ":dancing_corgi:",
-    ":dancing_men:",
-    ":shufflepartyparrot:",
-    ":aussiereversecongaparrot:",
-    ":sassyparrot:",
-    ":portalparrot:",
-    ":shocked_pikachu:",
-    ":pikachu:"}
+  birthdayEmojis := GetBirthdayEmojis()
 
-  rand.Seed(time.Now().UnixNano())
   var emoji1 string
   var emoji2 string
 
+  rand.Seed(time.Now().UnixNano())
   emoji1 = birthdayEmojis[rand.Intn(len(birthdayEmojis))]
+  rand.Seed(time.Now().UnixNano())
   emoji2 = birthdayEmojis[rand.Intn(len(birthdayEmojis))]
 
   birthdayStrings := []string{

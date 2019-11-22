@@ -33,6 +33,7 @@ Pull requests are welcome. For major changes, please open an issue first to disc
 - Compiled celebrations (multiple birthdays/anniversaries on the same day)
 - Statutory holidays
 - Custom holidays (bot's birthday, company's anniversary, etc.)
+- Direct congratulatory messages
 
 ## License
 This software is licensed under the [MIT](https://choosealicense.com/licenses/mit/) software license.
