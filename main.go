@@ -8,10 +8,10 @@ import (
 )
 
 func init() {
-    // loads values from .env into the system
-    if err := godotenv.Load(); err != nil {
+	// loads values from .env into the system
+	if err := godotenv.Load(); err != nil {
 		log.Print("No .env file found")
-    }
+	}
 }
 
 func main() {
@@ -29,9 +29,9 @@ func main() {
 	bambooApi := mattermost.BambooHR(bambooURL, bambooKey)
 
 	//Get employees directory
-	employees,_ := bambooApi.GetDirectory()
+	employees, _ := bambooApi.GetDirectory()
 	//Take directory and get extra information for each employee (birthday, anniversary)
-	employeeData,_ := bambooApi.GetEmployeeData(employees.Employees)
+	employeeData, _ := bambooApi.GetEmployeeData(employees.Employees)
 	//Filter only the employees with celebrations within the next week
 	celebrations := mattermost.FilterCelebrations(employeeData)
 

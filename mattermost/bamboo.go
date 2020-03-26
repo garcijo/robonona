@@ -16,36 +16,36 @@ type Bamboo struct {
 }
 
 type Directory struct {
-	Fields []Field `json:"fields"`
+	Fields    []Field    `json:"fields"`
 	Employees []Employee `json:"employees"`
 }
 
 type Employee struct {
-	Id   string    `json:"id,attr"`
-	DisplayName string `json:"displayName,attr"`
-	FirstName string `json:"firstName,attr"`
-	LastName string `json:"lastName,attr"`
-	PreferredName string `json:"preferredName,attr"`
-	DateOfBirth string `json:"dateOfBirth,attr"`
-	HireDate string `json:"hireDate,attr"`
-	Email string `json:"workEmail,attr"`
+	Id                 string `json:"id,attr"`
+	DisplayName        string `json:"displayName,attr"`
+	FirstName          string `json:"firstName,attr"`
+	LastName           string `json:"lastName,attr"`
+	PreferredName      string `json:"preferredName,attr"`
+	DateOfBirth        string `json:"dateOfBirth,attr"`
+	HireDate           string `json:"hireDate,attr"`
+	Email              string `json:"workEmail,attr"`
 	MattermostUsername string `json:"mattermostUsername,attr"`
 }
 
 type Field struct {
-	Id   string    `json:"id,attr"`
+	Id   string `json:"id,attr"`
 	Type string `json:"type,attr"`
 	Name string `json:"name,attr"`
 }
 
-var WeekDays = map[string] []Employee{
-	"Monday": {},
-	"Tuesday": {},
+var WeekDays = map[string][]Employee{
+	"Monday":    {},
+	"Tuesday":   {},
 	"Wednesday": {},
-	"Thursday": {},
-	"Friday": {},
-	"Saturday": {},
-	"Sunday": {},
+	"Thursday":  {},
+	"Friday":    {},
+	"Saturday":  {},
+	"Sunday":    {},
 }
 
 // Start using the API here -
@@ -99,7 +99,7 @@ func (b Bamboo) GetDirectory() (dir Directory, err error) {
 func (b Bamboo) GetEmployee(id string) (employee Employee) {
 
 	req, err := http.NewRequest("GET", fmt.Sprintf("%s/%s/v1/employees/%s?fields=firstName,lastName,displayName,preferredName,dateOfBirth,hireDate", b.base, b.subdomain, id), nil)
-// 	log.Printf("%v", req)
+	// 	log.Printf("%v", req)
 	if err != nil {
 		return
 	}
@@ -137,8 +137,6 @@ func (b Bamboo) GetEmployeeData(employees []Employee) (employeeData []Employee, 
 	return
 }
 
-
-
 // Extract body from the HTTP response
 func body(resp *http.Response) ([]byte, error) {
 	var buf bytes.Buffer
@@ -148,4 +146,3 @@ func body(resp *http.Response) ([]byte, error) {
 	}
 	return buf.Bytes(), nil
 }
-

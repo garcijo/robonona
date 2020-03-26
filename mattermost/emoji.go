@@ -54,7 +54,7 @@ func GetAnniversaryEmojis() (anniversaryEmojis []string) {
 		":tulip:"}
 	return
 }
-func GetRobotEmojis() (robotEmojis []string){
+func GetRobotEmojis() (robotEmojis []string) {
 	robotEmojis = []string{
 		":robot:",
 		":robot1:",
@@ -62,4 +62,5 @@ func GetRobotEmojis() (robotEmojis []string){
 		":robot3:",
 		":robot4:",
 		":robot5:"}
+	return
 }

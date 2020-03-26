@@ -1,13 +1,13 @@
 package mattermost
 
 import (
-	"time"
 	"strconv"
+	"time"
 )
 
 type Celebrations struct {
-	Birthdays  []Employee
-	Anniversaries  []Employee
+	Birthdays     []Employee
+	Anniversaries []Employee
 }
 
 //Takes an array with all employees and filters out all those who don't have a birthday or anniversary within the next week
@@ -19,7 +19,7 @@ func FilterCelebrations(employees []Employee) Celebrations {
 	birthdays := []Employee{}
 	anniversaries := []Employee{}
 	for _, employee := range employees {
-		employeeBirthdayDate,_ := time.Parse("2006-01-02", employee.DateOfBirth)
+		employeeBirthdayDate, _ := time.Parse("2006-01-02", employee.DateOfBirth)
 
 		monthString := strconv.Itoa(int(employeeBirthdayDate.Month()))
 		if int(employeeBirthdayDate.Month()) < 10 {
@@ -31,9 +31,9 @@ func FilterCelebrations(employees []Employee) Celebrations {
 		}
 
 		bdayString := strconv.Itoa(today.Year()) + "-" + monthString + "-" + dayString
-		employeeBirthday,_ := time.Parse("2006-01-02", bdayString)
+		employeeBirthday, _ := time.Parse("2006-01-02", bdayString)
 
-		hireDate,_ := time.Parse("2006-01-02", employee.HireDate)
+		hireDate, _ := time.Parse("2006-01-02", employee.HireDate)
 		monthHireString := strconv.Itoa(int(hireDate.Month()))
 		if int(hireDate.Month()) < 10 {
 			monthHireString = "0" + strconv.Itoa(int(hireDate.Month()))
@@ -43,14 +43,14 @@ func FilterCelebrations(employees []Employee) Celebrations {
 			dayHireString = "0" + strconv.Itoa(int(hireDate.Day()))
 		}
 		hireString := strconv.Itoa(today.Year()) + "-" + monthHireString + "-" + dayHireString
-		employeeHireDate,_ := time.Parse("2006-01-02", hireString)
+		employeeHireDate, _ := time.Parse("2006-01-02", hireString)
 
 		if (employeeBirthday.YearDay() >= today.YearDay()) && (employeeBirthday.YearDay() <= endOfWeek.YearDay()) {
 			birthdays = append(birthdays, employee)
 		}
 		if (hireDate.Year() < today.Year()) && (employeeHireDate.YearDay() >= today.YearDay()) && (employeeHireDate.YearDay() <= endOfWeek.YearDay()) {
-			 anniversaries = append(anniversaries, employee)
-		 }
+			anniversaries = append(anniversaries, employee)
+		}
 	}
 
 	celebrations := Celebrations{birthdays, anniversaries}

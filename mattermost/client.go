@@ -60,11 +60,11 @@ func GetBotUser(m model.Client4) *model.User {
 func GetMattermostUsernames(m model.Client4, employeeData []Employee) (employees []Employee) {
 	for _, employee := range employeeData {
 		search := &model.UserSearch{
-			Term: employee.Email,
+			Term:          employee.Email,
 			AllowInactive: false,
-			Limit: 1,
+			Limit:         1,
 		}
-		users,_ := m.SearchUsers(search)
+		users, _ := m.SearchUsers(search)
 		if len(users) > 0 {
 			employee.MattermostUsername = users[0].Username
 			employees = append(employees, employee)
@@ -77,11 +77,11 @@ func GetMattermostUsernames(m model.Client4, employeeData []Employee) (employees
 // GetMattermostUsername gets a username from the employee's email address
 func GetMattermostUsername(m model.Client4, employeeData Employee) (employee Employee) {
 	search := &model.UserSearch{
-		Term: employeeData.Email,
+		Term:          employeeData.Email,
 		AllowInactive: false,
-		Limit: 1,
+		Limit:         1,
 	}
-	users,_ := m.SearchUsers(search)
+	users, _ := m.SearchUsers(search)
 	employeeData.MattermostUsername = users[0].Username
 	employee = employeeData
 
@@ -90,7 +90,7 @@ func GetMattermostUsername(m model.Client4, employeeData Employee) (employee Emp
 
 // MessageMembers sends a message via mattermost to each set of pairs
 func MessageMembers(m model.Client4, channelName string, teamName string, botUser *model.User, birthdayString string) {
-	team,_ := m.GetTeamByName(teamName, "")
+	team, _ := m.GetTeamByName(teamName, "")
 	channel, resp := m.GetChannelByName(channelName, team.Id, "")
 
 	fmt.Printf("Channel: %v", channel)
@@ -101,7 +101,7 @@ func MessageMembers(m model.Client4, channelName string, teamName string, botUse
 		UserId:    botUser.Id,
 		Message:   birthdayString,
 	}
-// 	fmt.Printf("%v", post)
+	// 	fmt.Printf("%v", post)
 	_, resp = m.CreatePost(post)
 	if resp.Error != nil {
 		fmt.Fprintf(os.Stderr, "Error: %+v", resp)
