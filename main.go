@@ -39,7 +39,7 @@ func main() {
 	bdayString := mattermost.ParseBirthdays(birthdays)
 	anniversaries := mattermost.GetMattermostUsernames(*api, celebrations.Anniversaries)
 	anniString := mattermost.ParseAnniversaries(anniversaries)
-	celebrationsString := ":robot: Beep Boop :robot:" + "\n" + anniString + bdayString + "\n" + ":robot: Boop Beep :robot:"
+	celebrationsString := mattermost.StringifyRobot() + "\n" + anniString + bdayString + "\n" + mattermost.StringifyRobot()
 
 	//Define bot account
 	bot := mattermost.GetBotUser(*api)

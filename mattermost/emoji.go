@@ -44,6 +44,7 @@ func GetBirthdayEmojis() (birthdayEmojis []string) {
 		":pikachu:"}
 	return
 }
+
 func GetAnniversaryEmojis() (anniversaryEmojis []string) {
 	anniversaryEmojis = []string{
 		":tulipio:",
@@ -54,6 +55,7 @@ func GetAnniversaryEmojis() (anniversaryEmojis []string) {
 		":tulip:"}
 	return
 }
+
 func GetRobotEmojis() (robotEmojis []string) {
 	robotEmojis = []string{
 		":robot:",

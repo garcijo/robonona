@@ -3,7 +3,6 @@ package mattermost
 import (
 	"fmt"
 	"math/rand"
-	"strconv"
 	"time"
 )
 
@@ -22,9 +21,9 @@ func StringifyRobot() (robotString string) {
 		fmt.Sprintf("%s Beep Boop %s", emoji1, emoji2),
 		fmt.Sprintf("%s Boop %s", emoji1, emoji2),
 		fmt.Sprintf("%s Beep %s", emoji1, emoji2),
-		fmt.Sprintf("%s Boop Beep %s", emoji1, emoji2),
+		fmt.Sprintf("%s Boop Beep %s", emoji1, emoji2)}
 
-	robotString = robotStrings[rand.Intn(len(robotStrings))]
+		robotString = robotStrings[rand.Intn(len(robotStrings))]
 
 	return
 }

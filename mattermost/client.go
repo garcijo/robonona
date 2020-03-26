@@ -82,8 +82,10 @@ func GetMattermostUsername(m model.Client4, employeeData Employee) (employee Emp
 		Limit:         1,
 	}
 	users, _ := m.SearchUsers(search)
-	employeeData.MattermostUsername = users[0].Username
-	employee = employeeData
+	if len(users) > 0 {
+		employeeData.MattermostUsername = users[0].Username
+		employee = employeeData
+	}
 
 	return employee
 }
