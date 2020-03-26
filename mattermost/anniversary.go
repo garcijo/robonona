@@ -36,7 +36,7 @@ func Convert1to9(n int) (w string) {
 func ParseAnniversaries(employees []Employee) (anniversaryString string) {
   	for _, employee := range employees {
 		employeeName := fmt.Sprintf("@%s", employee.MattermostUsername)
-		if (employeeName == "") {
+		if len(employeeName) == 0 {
 			continue
 		}
 

@@ -1,14 +1,10 @@
 package main
 
 import (
+	"github.com/garcijo/robonona/mattermost"
+	"github.com/joho/godotenv"
 	"log"
 	"os"
-	"math/rand"
-	"time"
-	"fmt"
-
-	"github.com/joho/godotenv"
-	"github.com/garcijo/robonona/mattermost"
 )
 
 func init() {
@@ -39,18 +35,11 @@ func main() {
 	//Filter only the employees with celebrations within the next week
 	celebrations := mattermost.FilterCelebrations(employeeData)
 
-	//Randomly select one more person for a fake birthday
-	rand.Seed(time.Now().UnixNano())
-	fakeBday := employeeData[rand.Intn(len(employeeData))]
-	fakeBdayUser := mattermost.GetMattermostUsername(*api, fakeBday)
-	fakeBdayName := fmt.Sprintf("@%s", fakeBdayUser.MattermostUsername)
-	fakeBdayString := fmt.Sprintf(":shocked_pikachu: And *finally*, the happiest of all birthdays to %s ! :shocked_pikachu:", fakeBdayName)
-
 	birthdays := mattermost.GetMattermostUsernames(*api, celebrations.Birthdays)
 	bdayString := mattermost.ParseBirthdays(birthdays)
 	anniversaries := mattermost.GetMattermostUsernames(*api, celebrations.Anniversaries)
 	anniString := mattermost.ParseAnniversaries(anniversaries)
-	celebrationsString := ":robot: Beep Boop :robot:" + "\n" + anniString + bdayString + fakeBdayString + "\n" + ":robot: Boop Beep :robot:"
+	celebrationsString := ":robot: Beep Boop :robot:" + "\n" + anniString + bdayString + "\n" + ":robot: Boop Beep :robot:"
 
 	//Define bot account
 	bot := mattermost.GetBotUser(*api)

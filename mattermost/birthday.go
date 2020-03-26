@@ -7,10 +7,11 @@ import (
   "strconv"
 )
 
+
 func ParseBirthdays(employees []Employee) (birthdayString string) {
   	for _, employee := range employees {
 		employeeName := fmt.Sprintf("@%s", employee.MattermostUsername)
-		if (employeeName == "") {
+		if len(employeeName) == 0 {
 			continue
 		}
 
@@ -26,10 +27,37 @@ func ParseBirthdays(employees []Employee) (birthdayString string) {
 		bdayString := strconv.Itoa(time.Now().Year()) + "-" + monthString + "-" + dayString
 		employeeBirthday,_ := time.Parse("2006-01-02", bdayString)
 
-		birthdayString += StringifyBirthday(employeeName, employeeBirthday.Weekday().String()) + "\n"
+		weekdayString := employeeBirthday.Weekday().String()
+		WeekDays[weekdayString] = append(WeekDays[weekdayString], employee)
   	}
 
+  	for day, employees := range WeekDays {
+  		if len(employees) > 0 {
+			birthdayString += CompileDay(day, employees) + "\n"
+		}
+	}
+
   	return
+}
+
+func CompileDay(day string, employees []Employee) (birthdayString string) {
+
+	var names string
+	lastIdx := len(employees) - 1
+	for idx, employee := range employees {
+		employeeName := fmt.Sprintf("@%s", employee.MattermostUsername)
+
+		if len(employees) == 1 {
+			names += employeeName
+		} else if idx == lastIdx {
+			names += " and " + employeeName
+		} else {
+			names += employeeName + " "
+		}
+	}
+	birthdayString = StringifyBirthday(names, day)
+
+	return
 }
 
 func StringifyBirthday(name, date string) (birthdayString string) {

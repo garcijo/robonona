@@ -38,6 +38,16 @@ type Field struct {
 	Name string `json:"name,attr"`
 }
 
+var WeekDays = map[string] []Employee{
+	"Monday": {},
+	"Tuesday": {},
+	"Wednesday": {},
+	"Thursday": {},
+	"Friday": {},
+	"Saturday": {},
+	"Sunday": {},
+}
+
 // Start using the API here -
 func BambooHR(subdomain, key string) Bamboo {
 	return Bamboo{subdomain, key, false, &http.Client{}, "https://api.bamboohr.com/api/gateway.php"}
