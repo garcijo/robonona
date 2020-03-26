@@ -40,11 +40,17 @@ func ParseAnniversaries(employees []Employee) (anniversaryString string) {
 			continue
 		}
 
-		//Get anniversary date
 		anniversary,_ := time.Parse("2006-01-02", employee.HireDate)
-		//Build new string with current year and anniversary month and day
-		dateString := strconv.Itoa(time.Now().Year()) + "-" + strconv.Itoa(int(anniversary.Month())) + "-" + strconv.Itoa(anniversary.Day())
-		employeeAnniversary,_ := time.Parse("2006-01-02", dateString)
+		monthHireString := strconv.Itoa(int(anniversary.Month()))
+		if int(anniversary.Month()) < 10 {
+			monthHireString = "0" + strconv.Itoa(int(anniversary.Month()))
+		}
+		dayHireString := strconv.Itoa(int(anniversary.Day()))
+		if int(anniversary.Day()) < 10 {
+			dayHireString = "0" + strconv.Itoa(int(anniversary.Day()))
+		}
+		hireString := strconv.Itoa(time.Now().Year()) + "-" + monthHireString + "-" + dayHireString
+		employeeAnniversary,_ := time.Parse("2006-01-02", hireString)
 		today := time.Now().Year()
 		anniversaryNumber := today - anniversary.Year()
 		numberString := Convert1to9(anniversaryNumber)

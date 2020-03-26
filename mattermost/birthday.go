@@ -14,9 +14,16 @@ func ParseBirthdays(employees []Employee) (birthdayString string) {
 			continue
 		}
 
-		birthday,_ := time.Parse("2006-01-02", employee.DateOfBirth)
-		//Build new string with current year and anniversary month and day
-		bdayString := strconv.Itoa(time.Now().Year()) + "-" + strconv.Itoa(int(birthday.Month())) + "-" + strconv.Itoa(birthday.Day())
+		employeeBirthdayDate,_ := time.Parse("2006-01-02", employee.DateOfBirth)
+		monthString := strconv.Itoa(int(employeeBirthdayDate.Month()))
+		if int(employeeBirthdayDate.Month()) < 10 {
+			monthString = "0" + strconv.Itoa(int(employeeBirthdayDate.Month()))
+		}
+		dayString := strconv.Itoa(int(employeeBirthdayDate.Day()))
+		if int(employeeBirthdayDate.Day()) < 10 {
+			dayString = "0" + strconv.Itoa(int(employeeBirthdayDate.Day()))
+		}
+		bdayString := strconv.Itoa(time.Now().Year()) + "-" + monthString + "-" + dayString
 		employeeBirthday,_ := time.Parse("2006-01-02", bdayString)
 
 		birthdayString += StringifyBirthday(employeeName, employeeBirthday.Weekday().String()) + "\n"

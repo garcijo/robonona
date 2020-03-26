@@ -20,17 +20,35 @@ func FilterCelebrations(employees []Employee) Celebrations {
 	anniversaries := []Employee{}
 	for _, employee := range employees {
 		employeeBirthdayDate,_ := time.Parse("2006-01-02", employee.DateOfBirth)
-		bdayString := strconv.Itoa(today.Year()) + "-" + strconv.Itoa(int(employeeBirthdayDate.Month())) + "-" + strconv.Itoa(employeeBirthdayDate.Day())
+
+		monthString := strconv.Itoa(int(employeeBirthdayDate.Month()))
+		if int(employeeBirthdayDate.Month()) < 10 {
+			monthString = "0" + strconv.Itoa(int(employeeBirthdayDate.Month()))
+		}
+		dayString := strconv.Itoa(int(employeeBirthdayDate.Day()))
+		if int(employeeBirthdayDate.Day()) < 10 {
+			dayString = "0" + strconv.Itoa(int(employeeBirthdayDate.Day()))
+		}
+
+		bdayString := strconv.Itoa(today.Year()) + "-" + monthString + "-" + dayString
 		employeeBirthday,_ := time.Parse("2006-01-02", bdayString)
 
 		hireDate,_ := time.Parse("2006-01-02", employee.HireDate)
-		hireString := strconv.Itoa(today.Year()) + "-" + strconv.Itoa(int(hireDate.Month())) + "-" + strconv.Itoa(hireDate.Day())
+		monthHireString := strconv.Itoa(int(hireDate.Month()))
+		if int(hireDate.Month()) < 10 {
+			monthHireString = "0" + strconv.Itoa(int(hireDate.Month()))
+		}
+		dayHireString := strconv.Itoa(int(hireDate.Day()))
+		if int(hireDate.Day()) < 10 {
+			dayHireString = "0" + strconv.Itoa(int(hireDate.Day()))
+		}
+		hireString := strconv.Itoa(today.Year()) + "-" + monthHireString + "-" + dayHireString
 		employeeHireDate,_ := time.Parse("2006-01-02", hireString)
 
-		if !(employeeBirthday.YearDay() < today.YearDay()) && !(employeeBirthday.YearDay() > endOfWeek.YearDay()) {
+		if (employeeBirthday.YearDay() >= today.YearDay()) && (employeeBirthday.YearDay() <= endOfWeek.YearDay()) {
 			birthdays = append(birthdays, employee)
 		}
-		if !(employeeHireDate.YearDay() < today.YearDay()) && !(employeeHireDate.YearDay() > endOfWeek.YearDay()) {
+		if (hireDate.Year() < today.Year()) && (employeeHireDate.YearDay() >= today.YearDay()) && (employeeHireDate.YearDay() <= endOfWeek.YearDay()) {
 			 anniversaries = append(anniversaries, employee)
 		 }
 	}
