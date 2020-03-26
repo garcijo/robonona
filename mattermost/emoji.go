@@ -33,19 +33,33 @@ func GetBirthdayEmojis() (birthdayEmojis []string) {
 		":sassyparrot:",
 		":portalparrot:",
 		":shocked_pikachu:",
+		":allohappy:",
+		":blobderpy:",
+		":blobbirthday:",
+		":bloboctopus:",
+		":blobturtle:",
+		":marioluigidance:",
+		":partyblob:",
+		":partyblob2:",
 		":pikachu:"}
-
-    return
+	return
 }
-
 func GetAnniversaryEmojis() (anniversaryEmojis []string) {
 	anniversaryEmojis = []string{
-        ":tulipio:",
-    	":raised_hands:",
-    	":clap:",
-    	":wave:",
-    	":open_mouth:",
-    	":tulip:"}
-
-    return
+		":tulipio:",
+		":raised_hands:",
+		":clap:",
+		":wave:",
+		":open_mouth:",
+		":tulip:"}
+	return
+}
+func GetRobotEmojis() (robotEmojis []string){
+	robotEmojis = []string{
+		":robot:",
+		":robot1:",
+		":robot2:",
+		":robot3:",
+		":robot4:",
+		":robot5:"}
 }
